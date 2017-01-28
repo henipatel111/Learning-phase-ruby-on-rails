@@ -1,0 +1,22 @@
+<h1>Upload your article here.</h1>
+<h2>articles with name and descriptions.</h2>
+
+<h3>choose your file here:</h3>
+
+<%= form_tag "/articles/upload", method: :post, :multipart => true do %>
+ 
+  <p>
+    <input type="text" name="firstname" value="Mickey">
+  </p>
+
+   <input type="file" name="img">
+ 
+  
+  <p>
+    <button type="submit">Upload</button>
+  </p>
+
+
+<% end %>
+
+<%= link_to 'Back', articles_path %>

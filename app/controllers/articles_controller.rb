@@ -4,15 +4,41 @@ class ArticlesController < ApplicationController
   def index
     @articles = Article.all
   end
- 
+  def upload
+    @article = Article.new
+  end
+
+  def execute_upload
+    tempfile = params[:img].tempfile
+    puts "received value is :#{params[:firstname]}"
+    puts "img: #{params[:img].to_s}"
+    puts "path: #{tempfile.path}"
+    @count = 0
+    Spreadsheet.open(tempfile.path) do |book|
+      book.worksheet('Sheet1').each do |row|
+        break if row[0].nil?
+        puts row.join(',')
+        Article.new(:title => row[0],:text  => row[1]).save
+        @count += 1
+      end
+    end
+    render 'successful'
+  end
+
+  def successful
+    puts "welcome"
+  end
+
+
   def show
-    @article = Article.find(params[:id])
+     @article = Article.find(params[:id])
   end
  
   def new
     @article = Article.new
   end
- 
+
+  
   def edit
     @article = Article.find(params[:id])
   end
@@ -44,8 +70,13 @@ class ArticlesController < ApplicationController
     redirect_to articles_path
   end
  
-  private
-    def article_params
+ private def method_read
+    params.require(:article).permit(:title, :text)
+ end
+ 
+
+  private 
+  def article_params
       params.require(:article).permit(:title, :text)
     end
 end
