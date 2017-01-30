@@ -3,6 +3,8 @@
 
 <%= link_to 'New article', new_article_path %> 
 <%= link_to 'upload', articles_upload_path %> 
+ 
+ <%= form_tag articles_path, method: :delete do %>
 
 <table>
   <tr>
@@ -20,8 +22,13 @@
       <td><%= link_to 'Destroy', article_path(article),
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
+              <td><%= check_box_tag "articles[]", article.id %></td>
     </tr>
   <% end %>
 </table>
 
 
+ <p>
+    <button type="submit">delete selected</button>
+  </p>
+<% end %>

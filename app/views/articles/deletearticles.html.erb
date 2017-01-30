@@ -1,0 +1,27 @@
+<h1>Delete multiple articles.</h1>
+<h2>articles with name and descriptions.select them using checkboxes.</h2>
+
+<%= form_tag "/articles/deletearticles", method: :Delete, :multipart => true do %>
+ 
+  <table>
+  <tr>
+    <th>Title</th>
+    <th>Text</th>
+    <th colspan="2"></th>
+  </tr>
+ 
+  <% @articles.each do |article| %>
+    <tr>
+      <td><%= article.title %></td>
+      <td><%= article.text %></td>
+      <td><%= check_box_tag "articles[]", article.id %></td>
+    </tr>
+  <% end %>
+  </table>
+  <p>
+    <button type="submit">delete selected</button>
+  </p>
+  
+<% end %>
+
+<%= link_to 'Back', articles_path %>

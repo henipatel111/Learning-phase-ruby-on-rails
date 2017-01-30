@@ -29,6 +29,26 @@ class ArticlesController < ApplicationController
     puts "welcome"
   end
 
+  def delete_multiple
+    puts "deleting multiple articles together"
+    #params[:articles].each do |id|
+    #  Article.find(id.to_s).destroy
+    #end
+
+    Article.where(id: params[:articles]).destroy_all
+
+    render 'successful'
+  end
+
+  def deletearticles
+    @articles = Article.all
+    puts "deleting"
+    params[:index].each do |id|
+      Article.find(id.to_s).destroy
+      render 'successful'
+    end
+  end
+  
 
   def show
      @article = Article.find(params[:id])
@@ -66,6 +86,8 @@ class ArticlesController < ApplicationController
   def destroy
     @article = Article.find(params[:id])
     @article.destroy
+
+
  
     redirect_to articles_path
   end
