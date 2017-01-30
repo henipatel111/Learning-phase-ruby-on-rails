@@ -20,6 +20,7 @@ class ArticlesController < ApplicationController
         puts row.join(',')
         Article.new(:title => row[0],:text  => row[1]).save
         @count += 1
+        @msg = "created"
       end
     end
     render 'successful'
@@ -30,23 +31,22 @@ class ArticlesController < ApplicationController
   end
 
   def delete_multiple
+    @count=0
     puts "deleting multiple articles together"
-    #params[:articles].each do |id|
-    #  Article.find(id.to_s).destroy
-    #end
-
-    Article.where(id: params[:articles]).destroy_all
-
+    params[:articles].each do |id|
+      Article.find(id.to_s).destroy
+      @count += 1
+      @msg='deleted'
+    end
+    
+    #Article.where(id: params[:articles]).destroy_all
+    
     render 'successful'
   end
 
   def deletearticles
     @articles = Article.all
     puts "deleting"
-    params[:index].each do |id|
-      Article.find(id.to_s).destroy
-      render 'successful'
-    end
   end
   
 
